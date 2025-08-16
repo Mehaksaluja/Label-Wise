@@ -1,9 +1,10 @@
-
 import express from 'express';
 const router = express.Router();
-import analyzeIngredients from '../controllers/analysisController.js';
+import { analyzeIngredients, getAnalysisHistory, getAnalysisById } from '../controllers/analysisController.js';
+import { protect } from '../middleware/authMiddleware.js';
 
-// Define the route: POST /api/analyze
-router.post('/analyze', analyzeIngredients);
+router.post('/analyze', protect, analyzeIngredients);
+router.get('/history', protect, getAnalysisHistory);
+router.get('/history/:id', protect, getAnalysisById);
 
 export default router;

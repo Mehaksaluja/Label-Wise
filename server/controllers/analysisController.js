@@ -43,6 +43,7 @@ const analyzeIngredients = async (req, res) => {
 
     // Create a new document in the database
     const newAnalysis = new Analysis({
+      user: req.user._id,
       userInput,
       healthScore: parsedData.healthScore,
       nutritionalInfo: parsedData.nutritionalInfo,
@@ -63,4 +64,33 @@ const analyzeIngredients = async (req, res) => {
   }
 };
 
-export default analyzeIngredients;
+const getAnalysisHistory = async (req, res) => {
+  try {
+    // Find all analyses that match the logged-in user's ID
+    const analyses = await Analysis.find({ user: req.user._id }).sort({ timestamp: -1 }); // Sort by newest first
+    res.json(analyses);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+const getAnalysisById = async (req, res) => {
+  try {
+    const analysis = await Analysis.findById(req.params.id);
+
+    if (analysis) {
+      // Check if the analysis belongs to the logged-in user
+      if (analysis.user.toString() !== req.user._id.toString()) {
+        return res.status(401).json({ message: 'Not authorized' });
+      }
+      res.json(analysis);
+    } else {
+      res.status(404).json({ message: 'Analysis not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+export { analyzeIngredients, getAnalysisHistory, getAnalysisById };

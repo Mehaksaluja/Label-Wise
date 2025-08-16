@@ -1,6 +1,16 @@
 import mongoose from 'mongoose';
 
 const analysisSchema = new mongoose.Schema({
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: 'User', // This creates a reference to the User model
+  },
+  userInput: {
+    type: String,
+    required: true,
+    trim: true,
+  },
   userInput: {
     type: String,
     required: true,

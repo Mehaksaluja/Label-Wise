@@ -1,48 +1,64 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // 1. Import useNavigate
 import axios from 'axios';
-import ResultsDisplay from '../components/ResultsDisplay'; // Make sure this path is correct
+import ResultsDisplay from '../components/ResultsDisplay';
 
 const AnalysisPage = () => {
-  // State to hold the user's input
   const [ingredients, setIngredients] = useState('');
-  // State to hold the analysis result from the API
   const [result, setResult] = useState(null);
-  // State to manage the loading status
   const [isLoading, setIsLoading] = useState(false);
-  // State to hold any errors
   const [error, setError] = useState(null);
+  const navigate = useNavigate(); // 2. Initialize navigate
 
-  // Function to handle form submission
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent default form submission
+    e.preventDefault();
+
+    // 3. Get user info from localStorage
+    const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+
+    // 4. If user is not logged in, redirect them
+    if (!userInfo) {
+      navigate('/login');
+      return;
+    }
+
     setIsLoading(true);
     setError(null);
     setResult(null);
 
     try {
-      // Make a POST request to our backend API
-      const response = await axios.post('http://localhost:5001/api/analyze', {
-        userInput: ingredients,
-      });
-      setResult(response.data); // Set the result state with the API response
+      // 5. Create a config object with the user's token
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
+
+      // 6. Send the request with the input AND the config object
+      const response = await axios.post(
+        'http://localhost:5001/api/analyze',
+        { userInput: ingredients },
+        config
+      );
+
+      setResult(response.data);
     } catch (err) {
-      setError('An error occurred. Please check the ingredients and try again.');
+      setError('An error occurred. Please ensure you are logged in and try again.');
       console.error(err);
     } finally {
-      setIsLoading(false); // Set loading to false after the request is complete
+      setIsLoading(false);
     }
   };
 
   return (
     <div className="container mx-auto px-4 py-12">
       <div className="max-w-2xl mx-auto">
-        {/* Page Title and Description */}
+        {/* ... The rest of the JSX (form and results display) remains the same ... */}
         <h1 className="text-4xl font-extrabold text-center">Analyze Your Ingredients</h1>
         <p className="mt-4 text-center text-gray-600">
           Paste the ingredient list from any food or cosmetic product below to get an instant health analysis.
         </p>
-
-        {/* Input Form */}
         <form onSubmit={handleSubmit} className="mt-8">
           <textarea
             value={ingredients}
@@ -59,12 +75,8 @@ const AnalysisPage = () => {
             {isLoading ? 'Analyzing...' : 'Analyze Now'}
           </button>
         </form>
-
-        {/* Results Section */}
         <div className="mt-12">
           {error && <p className="text-center text-red-500">{error}</p>}
-
-          {/* Use the ResultsDisplay component to show the formatted report */}
           <ResultsDisplay data={result} />
         </div>
       </div>

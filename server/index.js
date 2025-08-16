@@ -3,6 +3,9 @@ import cors from 'cors';
 import connectDB from './config/db.js'; // Add .js
 import analysisRoutes from './routes/analysisRoutes.js'; // Add .js
 import userRoutes from './routes/userRoutes.js'; // Add .js
+import profileRoutes from './routes/profileRoutes.js';
+import planRoutes from './routes/planRoutes.js';
+import progressRoutes from './routes/progressRoutes.js';
 
 // Connect to the database
 connectDB();
@@ -25,6 +28,9 @@ app.get('/api', (req, res) => {
 // Use the analysis routes for any path starting with /api
 app.use('/api', analysisRoutes);
 app.use('/api/users', userRoutes); // 2. Add the user routes
+app.use('/api/profile', profileRoutes);
+app.use('/api/plan', planRoutes);
+app.use('/api/progress', progressRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
