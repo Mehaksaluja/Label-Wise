@@ -1,14 +1,34 @@
 @import "tailwindcss";
 
 @theme {
-  /* Define our new "Fresh Clarity" color tokens */
-  --color-background: #F7FAFC;
-  --color-text: #2D3748;
-  --color-primary: #38A169;
-  --color-secondary: #CBD5E0;
+  /* Define our "Vitality" color tokens */
+  --color-background: #FFFFFF;
+  --color-text: #1A202C;
+  --color-primary: #E53E3E;
+  --color-secondary: #E2E8F0;
 }
 
 body {
   /* Apply our custom tokens to the whole app */
   @apply bg-background text-text;
+}
+
+/* Define the keyframes for our fade-in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Add our custom animation as a utility class */
+@layer utilities {
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-out;
+  }
 }

@@ -1,8 +1,9 @@
-const express = require('express');
+
+import express from 'express';
 const router = express.Router();
-const { analyzeIngredients } = require('../controllers/analysisController');
+import analyzeIngredients from '../controllers/analysisController.js';
 
 // Define the route: POST /api/analyze
 router.post('/analyze', analyzeIngredients);
 
-module.exports = router;
+export default router;

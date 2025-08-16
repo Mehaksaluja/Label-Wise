@@ -1,7 +1,9 @@
-const mongoose = require('mongoose');
-const dotenv = require('dotenv');
+// server/config/db.js
 
-dotenv.config(); // Load environment variables from .env file
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const connectDB = async () => {
   try {
@@ -9,8 +11,8 @@ const connectDB = async () => {
     console.log(`MongoDB Connected: ${conn.connection.host}`);
   } catch (error) {
     console.error(`Error: ${error.message}`);
-    process.exit(1); // Exit process with failure
+    process.exit(1);
   }
 };
 
-module.exports = connectDB;
+export default connectDB; // Change to export default

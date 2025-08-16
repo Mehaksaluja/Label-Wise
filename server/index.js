@@ -1,7 +1,8 @@
-const express = require('express');
-const cors = require('cors'); // Import cors
-const connectDB = require('./config/db');
-const analysisRoutes = require('./routes/analysisRoutes'); // Import our routes
+import express from 'express';
+import cors from 'cors';
+import connectDB from './config/db.js'; // Add .js
+import analysisRoutes from './routes/analysisRoutes.js'; // Add .js
+import userRoutes from './routes/userRoutes.js'; // Add .js
 
 // Connect to the database
 connectDB();
@@ -23,6 +24,7 @@ app.get('/api', (req, res) => {
 
 // Use the analysis routes for any path starting with /api
 app.use('/api', analysisRoutes);
+app.use('/api/users', userRoutes); // 2. Add the user routes
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

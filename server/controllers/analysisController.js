@@ -1,5 +1,5 @@
-const Analysis = require('../models/Analysis');
-const { GoogleGenerativeAI } = require('@google/generative-ai');
+import Analysis from '../models/Analysis.js';
+import { GoogleGenerativeAI } from '@google/generative-ai';
 
 // Initialize the Google Generative AI client
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
@@ -63,4 +63,4 @@ const analyzeIngredients = async (req, res) => {
   }
 };
 
-module.exports = { analyzeIngredients };
+export default analyzeIngredients;

@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const analysisSchema = new mongoose.Schema({
   userInput: {
@@ -37,4 +37,4 @@ const analysisSchema = new mongoose.Schema({
 
 const Analysis = mongoose.model('Analysis', analysisSchema);
 
-module.exports = Analysis;
+export default Analysis;
