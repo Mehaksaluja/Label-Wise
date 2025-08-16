@@ -1,0 +1,14 @@
+@import "tailwindcss";
+
+@theme {
+  /* Define our new "Fresh Clarity" color tokens */
+  --color-background: #F7FAFC;
+  --color-text: #2D3748;
+  --color-primary: #38A169;
+  --color-secondary: #CBD5E0;
+}
+
+body {
+  /* Apply our custom tokens to the whole app */
+  @apply bg-background text-text;
+}
