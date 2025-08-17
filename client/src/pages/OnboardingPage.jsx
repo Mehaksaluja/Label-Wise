@@ -46,21 +46,21 @@ const OnboardingPage = () => {
   };
 
   const handleSubmit = async () => {
-    setIsLoading(true);
+    setIsLoading(true); // Show "Generating Plan..." on the button
     setError(null);
     try {
       const userInfo = JSON.parse(localStorage.getItem('userInfo'));
-      const config = {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${userInfo.token}`,
-        },
-      };
+      const config = { headers: { Authorization: `Bearer ${userInfo.token}` } };
+
+      // First, save the profile
       await axios.post('http://localhost:5001/api/profile', formData, config);
-      navigate('/dashboard');
+
+      // THEN, generate the plan
+      await axios.post('http://localhost:5001/api/plan/generate', {}, config);
+
+      navigate('/dashboard'); // Now navigate to the dashboard
     } catch (err) {
-      setError('Failed to save profile. Please try again.');
-    } finally {
+      setError('Failed to create your plan. Please try again.');
       setIsLoading(false);
     }
   };

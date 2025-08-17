@@ -6,6 +6,8 @@ import userRoutes from './routes/userRoutes.js'; // Add .js
 import profileRoutes from './routes/profileRoutes.js';
 import planRoutes from './routes/planRoutes.js';
 import progressRoutes from './routes/progressRoutes.js';
+import chatRoutes from './routes/chatRoutes.js';
+import reportsRoutes from './routes/reportsRoutes.js';
 
 // Connect to the database
 connectDB();
@@ -31,6 +33,8 @@ app.use('/api/users', userRoutes); // 2. Add the user routes
 app.use('/api/profile', profileRoutes);
 app.use('/api/plan', planRoutes);
 app.use('/api/progress', progressRoutes);
+app.use('/api/chat', chatRoutes);
+app.use('/api/reports', reportsRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
